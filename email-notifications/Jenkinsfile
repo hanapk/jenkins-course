@@ -1,11 +1,13 @@
 node {
 
   // config
-  def to = emailextrecipients([
+  def providers = [
           [$class: 'CulpritsRecipientProvider'],
           [$class: 'DevelopersRecipientProvider'],
           [$class: 'RequesterRecipientProvider']
-  ])
+  ]
+
+  def to = 'pknissar@gmail.com'
 
   // job
   try {
@@ -27,6 +29,7 @@ node {
     if(to != null && !to.isEmpty()) {
       emailext(body: content, mimeType: 'text/html',
          replyTo: '$DEFAULT_REPLYTO', subject: subject,
+         recipientProviders: providers,
          to: to, attachLog: true )
     }
 
